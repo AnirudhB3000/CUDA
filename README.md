@@ -100,6 +100,14 @@ This CUDA code uses a device function to further optimize sum reduction, removin
 
 This CUDA code demonstrates sum reduction using cooperative groups, a feature available in CUDA 9.0 onwards, to improve thread coordination and reduce synchronization overhead.
 
+## Convolution.cu
+
+This CUDA code implements a basic convolution operation on a 1D array. It utilizes parallelism to enhance the performance of the convolution operation. Widely used in machine learning (CNN).
+
 Feel free to explore each code file for more details and optimizations applied.
+
+## ConstMemConvolution.cu
+
+Constant memory in CUDA is a region of memory that is cached on the device and read-only for all threads within a thread block. It is ideal for storing values that do not change during the execution of a kernel. In the provided code, the convolution mask is stored in constant memory. This means that every thread within a thread block can efficiently access the same constant mask without having to fetch it from global memory repeatedly.
 
 **Note:** Ensure you have the necessary dependencies and a compatible GPU before running these CUDA programs. Adjust the compilation and execution commands based on your system configuration.
