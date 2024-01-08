@@ -122,4 +122,28 @@ This CUDA code performs 2D convolution on a square matrix using a given convolut
 The code includes functions to initialize the input matrix and the convolution mask with random values. It allocates memory on both the host and device, transfers data between them, and launches the convolution kernel. The computed result is then transferred back to the host, and a verification step ensures the correctness of the GPU-computed result against a CPU-computed one.
 The CUDA code is structured to efficiently handle 2D convolution tasks, commonly used in image processing, computer vision, and deep learning. The use of shared memory and constant memory for the convolution mask contributes to optimized memory access patterns, improving overall performance. The code is designed to work with matrices of varying sizes, providing flexibility for different applications.
 
+## NaiveHistogram.cu
+
+This CUDA code performs parallel histogram computation on a randomly generated sequence of lowercase English letters. The goal is to count the occurrences of each letter and distribute them into predefined bins based on their alphabetical order. The number of bins is determined by the constant `BINS`, and each bin covers a certain range of letters. The `Histogram` kernel is responsible for updating the histogram bins based on the letters in the input array. Each thread handles a portion of the input array, and the atomic operation `atomicAdd` ensures that multiple threads can safely increment the bin counters without race conditions. The main function initializes a host vector `h_input` with random letters and allocates device memory for both the input array (`d_input`) and the histogram result (`d_result`). The histogram computation is performed in parallel on the GPU, and the result is transferred back to the host for verification. The code also ensures that the total count of letters matches the input size. The computed histogram is then saved to a file named "histogram.dat" for further analysis or visualization. The CUDA memory is freed before the program exits. This code showcases the parallelization capabilities of CUDA for data-intensive tasks like histogram computation, which is commonly used in image processing, signal processing, and various data analysis applications.
+
+## SMHistogram.cu
+
+The provided CUDA code implements parallel histogram computation with shared memory optimization. The `Histogram` kernel leverages shared memory to efficiently calculate partial histograms within each block, enhancing parallelism. The main function generates random lowercase English letters, allocates device memory, and launches the kernel with specified thread and block configurations. After copying the results back to the host, it verifies the total count and saves the computed histogram to a file named "histogram.dat." This implementation demonstrates effective parallelization for histogram analysis, particularly beneficial for applications requiring efficient processing of large datasets on GPU architectures.
+
+*Note:* For the above two programs, the histogram can be viewed in GNU compiler by running:
+   ```bash
+   gnuplot
+
+   plot 'filename' w l
+   ```
+In Google Colab by:
+   ```python
+   import matplotlib.pyplot as plt 
+
+   plt.plotfile('histogram.dat')
+   plt.show()
+   ```
+
+
+
 **Note:** Ensure you have the necessary dependencies and a compatible GPU before running these CUDA programs. Adjust the compilation and execution commands based on your system configuration.
